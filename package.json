@@ -1,6 +1,6 @@
 {
   "name": "ai-musicify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "AI 驱动的歌词创作工具 - 支持全流程创作、三种创作模式、全类型歌曲",
   "keywords": [
@@ -63,4 +63,3 @@
     "url": "https://github.com/wordflowlab/musicify/issues"
   }
 }
-
