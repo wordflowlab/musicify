@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2025-10-31
+
+### 🎉 Major UX Improvements
+
+#### Changed
+- **Revolutionized interaction model**: Replaced difficult open-ended questions with easy multiple-choice (A/B/C/D/E)
+- **Two-level selection system**: Choose main category first, then specific direction
+- **Smart defaults**: Preset common options while keeping E for custom input
+- **30-second setup**: Users can now complete theme selection in under 30 seconds
+
+#### Improved Commands
+- `/theme`: Now uses A/B/C/D/E selection for theme categories (Love/Growth/Healing/Social/Custom)
+  - Each category has 5-7 specific sub-options
+  - Emotion intensity selection (Subtle/Warm/Intense/Painful/Complex)
+  - Narrative style options (Story/Emotion/Scenes/Dialogue/Imagery)
+  - Perspective selection (First/Second/Third/Mixed/Creative)
+- `/lyrics` (coach mode): Added preset options for rhyme patterns (AABB/ABAB/ABCB/Free) and writing styles (Colloquial/Literary/Dramatic/Concise)
+
+#### Benefits
+- ✅ Much lower barrier to entry
+- ✅ Faster workflow (30 seconds vs 5+ minutes)
+- ✅ Less intimidating for new users
+- ✅ Still maintains depth for advanced users (E option)
+- ✅ Reduces user abandonment rate
+
+---
+
+## [0.1.2] - 2025-10-31
+
+### Added
+- Complete PowerShell scripts for Windows support
+- All 11 PowerShell versions (common, spec, theme, mood, structure, lyrics, fill, rhyme, polish, melody-hint, export)
+
+---
+
+## [0.1.1] - 2025-10-31
+
+### Fixed
+- Include templates/ and scripts/ directories in npm package
+- Users can now properly initialize projects
+
+---
+
 ## [0.1.0] - 2025-10-31
 
 ### Added
