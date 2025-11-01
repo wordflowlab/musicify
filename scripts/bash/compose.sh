@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 智能导出系统 - 支持多平台导出
+# 作曲辅助 - 生成和弦进行、旋律提示和五线谱
 
 # 加载通用函数库
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -21,7 +21,7 @@ if [ ! -f "$LYRICS_FILE" ]; then
     exit 1
 fi
 
-# 读取所有项目文件
+# 读取文件
 spec_content=$(cat "$SPEC_FILE")
 lyrics_content=$(cat "$LYRICS_FILE")
 
@@ -38,50 +38,30 @@ if [ -f "$MOOD_FILE" ]; then
     mood_content=$(cat "$MOOD_FILE")
 fi
 
-composition_content="{}"
-COMPOSITION_FILE="$PROJECT_DIR/composition.yaml"
-HAS_COMPOSITION="false"
-if [ -f "$COMPOSITION_FILE" ]; then
-    composition_content=$(cat "$COMPOSITION_FILE")
-    HAS_COMPOSITION="true"
-fi
-
-notation_content=""
-NOTATION_FILE="$PROJECT_DIR/notation.abc"
-HAS_NOTATION="false"
-if [ -f "$NOTATION_FILE" ]; then
-    notation_content=$(cat "$NOTATION_FILE")
-    HAS_NOTATION="true"
-fi
-
 theme_content=""
 THEME_FILE="$PROJECT_DIR/theme.md"
 if [ -f "$THEME_FILE" ]; then
     theme_content=$(read_file_as_json "$THEME_FILE")
 fi
 
-# 输出所有信息给 AI,让 AI 交互式询问用户
 output_json "{
   \"status\": \"success\",
   \"project_name\": \"$PROJECT_NAME\",
-  \"project_dir\": \"$PROJECT_DIR\",
   \"spec\": $spec_content,
   \"structure\": $structure_content,
   \"mood\": $mood_content,
   \"theme\": \"$theme_content\",
   \"lyrics_content\": \"$(escape_json "$lyrics_content")\",
-  \"composition_content\": \"$(escape_json "$composition_content")\",
-  \"notation_content\": \"$(escape_json "$notation_content")\",
-  \"has_composition\": $HAS_COMPOSITION,
-  \"has_notation\": $HAS_NOTATION,
-  \"export_dir\": \"$PROJECT_DIR/exports\",
-  \"message\": \"AI 应询问用户选择导出平台,然后生成对应文件\",
-  \"export_options\": [
-    \"1. Suno AI\",
-    \"2. Tunee AI\",
-    \"3. 通用格式\",
-    \"4. 纯歌词\",
-    \"5. 全部导出\"
+  \"message\": \"AI 应根据歌曲信息生成完整的作曲辅助内容\",
+  \"output_files\": {
+    \"composition_yaml\": \"$PROJECT_DIR/composition.yaml\",
+    \"notation_abc\": \"$PROJECT_DIR/notation.abc\"
+  },
+  \"required_content\": [
+    \"chord_progression (和弦进行)\",
+    \"melody_hints (旋律提示)\",
+    \"abc_notation (五线谱)\",
+    \"instrumentation (乐器配置)\",
+    \"reference_songs (参考歌曲)\"
   ]
 }"
-

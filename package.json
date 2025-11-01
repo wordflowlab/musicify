@@ -1,8 +1,8 @@
 {
   "name": "ai-musicify",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
-  "description": "AI 驱动的歌词创作工具 - 支持全流程创作、三种创作模式、全类型歌曲",
+  "description": "AI 驱动的歌词创作和音乐辅助工具 - 支持全流程创作、三种创作模式、作曲辅助、导出到 Suno/Tunee",
   "keywords": [
     "lyrics",
     "songwriting",
@@ -41,7 +41,8 @@
     "inquirer": "^9.2.12",
     "js-yaml": "^4.1.0",
     "marked": "^16.4.1",
-    "ora": "^8.0.1"
+    "ora": "^8.0.1",
+    "tonal": "^6.4.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

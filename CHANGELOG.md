@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2025-11-01
+
+### 🎵 Major Feature: 作曲辅助与音乐平台集成
+
+#### Added
+- **`/lyrics` 交互式模式选择** - 不再需要 `--mode` 参数
+  - 首次运行时 AI 询问选择模式 (Coach/Express/Hybrid)
+  - 自动保存选择,下次直接使用
+  - 保留 `--mode` 参数作为快捷方式(向后兼容)
+- **`/compose` 命令** - 生成完整的作曲辅助内容
+  - 和弦进行生成 (基于音乐理论,使用 tonal 库)
+  - 旋律音高提示 (具体音高序列,如 C4-D4-E4-G4)
+  - ABC Notation 五线谱导出
+  - 乐器配置建议
+  - 参考歌曲推荐
+
+- **增强 `/export` 命令** - 智能导出到多个平台
+  - **Suno AI 导出**: 生成结构化提示词,可直接粘贴到 Suno
+  - **Tunee AI 导出**: 生成对话素材包,引导在 Tunee 中创作
+  - **通用格式导出**: 导出五线谱+和弦+歌词(给乐手使用)
+  - **纯歌词导出**: 保留原有的 TXT/MD 导出功能
+  - **全部导出**: 一键导出所有格式
+
+- **音乐理论库集成**: 安装 `tonal` 库用于和弦计算和验证
+
+#### Changed
+- `/export` 从纯歌词导出变为交互式平台选择
+- 产品定位从"歌词工具"扩展为"歌词创作+音乐辅助",与 Suno/Tunee 互补
+
+#### Technical
+- 新增文件: `templates/commands/compose.md`
+- 新增脚本: `scripts/bash/compose.sh`, `scripts/powershell/compose.ps1`
+- 更新脚本: `scripts/bash/export.sh`, `scripts/powershell/export.ps1`
+- 新增依赖: `tonal@^5.0.0`
+
+---
+
 ## [0.2.0] - 2025-10-31
 
 ### 🎉 Major UX Improvements
