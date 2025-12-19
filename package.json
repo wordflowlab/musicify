@@ -1,6 +1,6 @@
 {
   "name": "ai-musicify",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "description": "AI 驱动的歌词创作和音乐辅助工具 - 支持全流程创作、三种创作模式、作曲辅助、导出到 Suno/Tunee。Claude Code 专属 Skill 增强体验",
   "keywords": [
@@ -13,9 +13,15 @@
     "skills",
     "rhyme",
     "chord-progressions",
+    "guofeng",
+    "chinese-music",
+    "pentatonic",
+    "melody-generation",
     "歌词",
     "作词",
-    "音乐创作"
+    "音乐创作",
+    "国风",
+    "五声音阶"
   ],
   "author": "Musicify Team",
   "license": "MIT",
@@ -37,7 +43,9 @@
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js",
     "clean": "rm -rf dist",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test": "vitest --run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^12.0.0",
@@ -54,8 +62,11 @@
     "@types/inquirer": "^9.0.9",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.10.0",
+    "@vitest/coverage-v8": "^4.0.16",
+    "fast-check": "^4.4.0",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.16"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2025-12-19
+
+### 🎼 Major Feature: 国风旋律生成系统
+
+#### Added
+- **🎵 国风旋律生成助手 Skill** (`/melody-gen` 命令)
+  - 将歌词转换为符合五声音阶的简谱旋律
+  - 支持宫、商、角、徵、羽五种传统调式
+  - 智能情绪旋律映射 (忧伤、欢快、平静、激昂、思念、空灵)
+  - 结构差异处理 (主歌、副歌、桥段的旋律特征)
+  - 传统装饰音支持 (滑音、颤音、倚音、波音)
+
+- **📚 专业国风资源库**
+  - `pentatonic-rules.json`: 五声音阶规则库
+    - 宫商角徵羽五种调式的详细定义
+    - 音程规则和避免音指导
+    - 典型终止式和装饰音模式
+  - `guofeng-patterns.json`: 国风旋律模式库
+    - 6种情绪的旋律特征映射
+    - 常用国风旋律型 (如"梅花三弄"、"高山流水")
+    - 节拍和速度指导
+
+#### Enhanced
+- **关键词扩展**: 新增 `guofeng`, `chinese-music`, `pentatonic`, `melody-generation`, `国风`, `五声音阶`
+- **Skill 系统**: 现已支持 3 个专业 Skills (lyrics, compose, melody-gen)
+- **传统音乐理论**: 完整的中国传统音乐理论支持
+
+#### Technical
+- **测试系统**: 新增完整的测试框架 (`vitest`)
+  - 单元测试覆盖核心功能
+  - 性能测试和边界测试
+  - 自动化测试流程
+
+- **开发工具**: 增强的开发体验
+  - 测试命令: `npm run test`, `npm run test:watch`
+  - 代码覆盖率报告
+  - 快速属性测试支持
+
+#### Package Updates
+- 版本更新至 `v0.5.0`
+- 新增开发依赖: `vitest`, `@vitest/coverage-v8`, `fast-check`
+- 完善的测试配置和 CI/CD 支持
+
 ## [0.4.0] - 2025-12-19
 
 ### 🚀 Major Feature: Claude Code Skill 系统集成
