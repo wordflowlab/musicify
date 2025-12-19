@@ -55,6 +55,29 @@ export function isInteractive(): boolean {
 }
 
 /**
+ * Check if running in Claude Code environment
+ */
+export function isClaudeCode(): boolean {
+  // 1. 环境变量检测
+  if (process.env.CLAUDE_CODE === 'true') return true;
+
+  // 2. 命令行参数检测
+  if (process.argv.some(arg => arg.includes('claude-code'))) return true;
+
+  // 3. 全局对象检测
+  if (typeof (global as any).claudeCode !== 'undefined') return true;
+
+  return false;
+}
+
+/**
+ * Check if environment supports Skills functionality
+ */
+export function supportsSkills(): boolean {
+  return isClaudeCode() && isInteractive();
+}
+
+/**
  * Select AI assistant interactively
  */
 export async function selectAIAssistant(configs: AIConfig[]): Promise<string> {

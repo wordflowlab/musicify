@@ -212,3 +212,48 @@ export interface MelodyHint {
   reference_songs: string[]; // 参考歌曲
 }
 
+// ================================
+// Skill 系统相关类型定义
+// ================================
+
+/**
+ * Skill 元数据 (YAML frontmatter)
+ */
+export interface SkillMetadata {
+  name: string;
+  description: string;
+  category: string;
+  version: string;
+  resources?: string[];
+  fallback_command?: string;
+  'allowed-tools'?: string[];
+}
+
+/**
+ * Skill 资源文件
+ */
+export interface SkillResource {
+  name: string;
+  type: 'json' | 'template' | 'data';
+  data: any;
+}
+
+/**
+ * Skill 完整定义
+ */
+export interface Skill {
+  metadata: SkillMetadata;
+  content: string;
+  resources: Map<string, SkillResource>;
+}
+
+/**
+ * Skill 执行上下文
+ */
+export interface SkillContext {
+  commandName: string;
+  args: string[];
+  metadata: SkillMetadata;
+  resources: Map<string, SkillResource>;
+}
+

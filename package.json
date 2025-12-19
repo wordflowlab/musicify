@@ -1,14 +1,18 @@
 {
   "name": "ai-musicify",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
-  "description": "AI 驱动的歌词创作和音乐辅助工具 - 支持全流程创作、三种创作模式、作曲辅助、导出到 Suno/Tunee",
+  "description": "AI 驱动的歌词创作和音乐辅助工具 - 支持全流程创作、三种创作模式、作曲辅助、导出到 Suno/Tunee。Claude Code 专属 Skill 增强体验",
   "keywords": [
     "lyrics",
     "songwriting",
     "music",
     "ai",
     "content-creation",
+    "claude-code",
+    "skills",
+    "rhyme",
+    "chord-progressions",
     "歌词",
     "作词",
     "音乐创作"
@@ -23,6 +27,7 @@
     "dist/",
     "scripts/",
     "templates/",
+    "skills/",
     "README.md",
     "CHANGELOG.md"
   ],

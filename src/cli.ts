@@ -14,11 +14,13 @@ import {
   displayInfo,
   displayStep,
   isInteractive,
+  isClaudeCode,
   selectAIAssistant,
   selectSongType,
   selectBashScriptType
 } from './utils/interactive.js';
 import { executeBashScript } from './utils/bash-runner.js';
+import { loadSkill, skillExists, createSkillContext } from './utils/skill-loader.js';
 
 // 读取 package.json 版本号
 const require = createRequire(import.meta.url);
@@ -310,6 +312,74 @@ async function executeCommandWithTemplate(
   }
 }
 
+// Helper function to execute skill (Claude Code only)
+async function executeSkill(
+  commandName: string,
+  args: string[] = []
+) {
+  try {
+    // 加载 skill
+    const skill = await loadSkill(commandName);
+    const context = createSkillContext(commandName, args, skill);
+
+    // 执行相关脚本（如果存在）
+    let result: any = { status: 'info', message: `Skill ${commandName} loaded` };
+
+    try {
+      result = await executeBashScript(commandName, args);
+    } catch (scriptError) {
+      // Skill 可以不依赖脚本运行
+      console.log(chalk.yellow('⚠️ No script found, using skill-only mode'));
+    }
+
+    if (result.status === 'success' || result.status === 'info') {
+      displaySuccess(`项目: ${result.project_name || 'Skill Mode'}`);
+
+      // 显示 skill 内容（增强版体验）
+      console.log('\n' + chalk.bold.cyan('🚀 Claude Code Skill Mode'));
+      console.log(chalk.dim('─'.repeat(50)));
+      console.log(skill.content);
+      console.log(chalk.dim('─'.repeat(50)) + '\n');
+
+      // 显示资源信息（如果有）
+      if (skill.resources.size > 0) {
+        console.log(chalk.bold.yellow('📚 Available Resources:'));
+        for (const [name, resource] of skill.resources) {
+          console.log(chalk.dim(`  • ${name} (${resource.type})`));
+        }
+        console.log('');
+      }
+
+      // 显示脚本输出信息
+      if (result.project_name) {
+        console.log(chalk.dim('## 脚本输出信息\n'));
+        console.log('```json');
+        console.log(JSON.stringify(result, null, 2));
+        console.log('```');
+      }
+
+      // 显示 skill 元数据
+      console.log(chalk.dim('\n## Skill 信息\n'));
+      console.log('```json');
+      console.log(JSON.stringify({
+        name: skill.metadata.name,
+        description: skill.metadata.description,
+        category: skill.metadata.category,
+        version: skill.metadata.version,
+        resources: skill.metadata.resources || []
+      }, null, 2));
+      console.log('```');
+
+    } else {
+      displayError(result.message || '发生未知错误');
+      process.exit(1);
+    }
+  } catch (error) {
+    displayError(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}
+
 // /spec - 定义歌曲规格
 program
   .command('spec')
@@ -317,7 +387,13 @@ program
   .argument('[project]', '项目名称(可选)')
   .action(async (project?: string) => {
     const args = project ? [project] : [];
-    await executeCommandWithTemplate('spec', 'spec', args);
+
+    // 双轨执行逻辑
+    if (isClaudeCode() && await skillExists('spec')) {
+      await executeSkill('spec', args);
+    } else {
+      await executeCommandWithTemplate('spec', 'spec', args);
+    }
   });
 
 // /theme - 主题构思
@@ -327,7 +403,13 @@ program
   .argument('[project]', '项目名称(可选)')
   .action(async (project?: string) => {
     const args = project ? [project] : [];
-    await executeCommandWithTemplate('theme', 'theme', args);
+
+    // 双轨执行逻辑
+    if (isClaudeCode() && await skillExists('theme')) {
+      await executeSkill('theme', args);
+    } else {
+      await executeCommandWithTemplate('theme', 'theme', args);
+    }
   });
 
 // /mood - 情绪定位
@@ -366,34 +448,40 @@ program
         args.push('--mode', options.mode);
       }
 
-      const result = await executeBashScript('lyrics', args);
-
-      if (result.status === 'success') {
-        displaySuccess(`项目: ${result.project_name}`);
-
-        // 根据模式选择模板
-        let templateName = 'lyrics-coach';
-        if (options.mode === 'express') {
-          templateName = 'lyrics-express';
-        } else if (options.mode === 'hybrid') {
-          templateName = 'lyrics-hybrid';
-        }
-
-        const templatePath = `templates/commands/${templateName}.md`;
-        if (await fs.pathExists(templatePath)) {
-          const { metadata, content } = await parseCommandTemplate(templatePath);
-          console.log('\n' + chalk.dim('─'.repeat(50)));
-          console.log(content);
-          console.log(chalk.dim('─'.repeat(50)) + '\n');
-
-          console.log(chalk.dim('## 脚本输出信息\n'));
-          console.log('```json');
-          console.log(JSON.stringify(result, null, 2));
-          console.log('```');
-        }
+      // 双轨执行逻辑
+      if (isClaudeCode() && await skillExists('lyrics')) {
+        await executeSkill('lyrics', args);
       } else {
-        displayError(result.message || '发生未知错误');
-        process.exit(1);
+        // 原有模板系统逻辑
+        const result = await executeBashScript('lyrics', args);
+
+        if (result.status === 'success') {
+          displaySuccess(`项目: ${result.project_name}`);
+
+          // 根据模式选择模板
+          let templateName = 'lyrics-coach';
+          if (options.mode === 'express') {
+            templateName = 'lyrics-express';
+          } else if (options.mode === 'hybrid') {
+            templateName = 'lyrics-hybrid';
+          }
+
+          const templatePath = `templates/commands/${templateName}.md`;
+          if (await fs.pathExists(templatePath)) {
+            const { metadata, content } = await parseCommandTemplate(templatePath);
+            console.log('\n' + chalk.dim('─'.repeat(50)));
+            console.log(content);
+            console.log(chalk.dim('─'.repeat(50)) + '\n');
+
+            console.log(chalk.dim('## 脚本输出信息\n'));
+            console.log('```json');
+            console.log(JSON.stringify(result, null, 2));
+            console.log('```');
+          }
+        } else {
+          displayError(result.message || '发生未知错误');
+          process.exit(1);
+        }
       }
     } catch (error) {
       displayError(error instanceof Error ? error.message : String(error));
@@ -462,7 +550,13 @@ program
     if (options.format) {
       args.push('--format', options.format);
     }
-    await executeCommandWithTemplate('export', 'export', args);
+
+    // 双轨执行逻辑
+    if (isClaudeCode() && await skillExists('export')) {
+      await executeSkill('export', args);
+    } else {
+      await executeCommandWithTemplate('export', 'export', args);
+    }
   });
 
 // Help command

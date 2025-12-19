@@ -2,6 +2,71 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2025-12-19
+
+### 🚀 Major Feature: Claude Code Skill 系统集成
+
+#### Added
+- **双轨架构系统** - Claude Code 专属增强体验
+  - 智能环境检测：自动识别 Claude Code 环境
+  - Skill 系统：专为 Claude Code 设计的增强功能
+  - 传统兼容：其他 12 个 AI 平台保持原有功能不变
+
+- **🎵 歌词创作引导助手 Skill** (`/lyrics` 命令增强)
+  - 智能押韵实时建议和评分系统
+  - 5000+ 中文押韵词汇库 (AABB/ABAB/ABCB 模式)
+  - 情感词汇库分类推荐 (欢快、忧伤、温暖、励志、浪漫)
+  - 渐进式披露的创作引导体验
+  - 中文韵律分析工具
+  - 歌词结构可视化展示
+
+- **🎼 音乐理论与作曲助手 Skill** (`/compose` 命令增强)
+  - 智能和弦进行生成与分析 (流行、摇滚、爵士、中国风)
+  - 调式自动识别和转换 (大小调、Dorian、Mixolydian、五声音阶)
+  - 专业编配建议系统 (乐器搭配、声部安排、节奏型设计)
+  - 风格化节奏模式指导
+  - 音色搭配专业建议
+  - 高级作曲技巧指导 (和弦替代、旋律写作、歌曲结构)
+
+- **专业资源库系统**
+  - `rhyme-patterns.json`: 中文押韵数据库，包含音调分析
+  - `chord-progressions.json`: 和弦进行库，覆盖多种音乐风格
+  - 情感词汇分类系统
+  - 创作技巧指南库
+
+#### Enhanced
+- **环境检测功能** (`src/utils/interactive.ts`)
+  - `isClaudeCode()`: 多重验证的 Claude Code 环境检测
+  - `supportsSkills()`: Skills 功能支持判断
+
+- **类型系统扩展** (`src/types/index.ts`)
+  - `SkillMetadata`: Skill 元数据接口
+  - `SkillResource`: 资源文件接口
+  - `SkillContext`: 执行上下文接口
+
+- **CLI 核心逻辑** (`src/cli.ts`)
+  - 双轨执行机制：自动选择 Skill 或传统模式
+  - 增强的输出格式：彩色界面、图标、结构化展示
+  - 资源状态显示：实时显示加载的资源文件
+
+#### Technical
+- **Skill 加载引擎** (`src/utils/skill-loader.ts`)
+  - YAML frontmatter 解析
+  - 动态资源加载和管理
+  - Skill 完整性验证
+  - 错误处理和降级机制
+
+- **文件结构优化**
+  - `skills/` 目录：独立的 Skill 文件存储
+  - `skills/resources/` 子目录：资源文件管理
+  - 模块化设计：清晰的职责分离
+
+#### Package Updates
+- 版本更新至 `v0.4.0`
+- 新增关键词：`claude-code`, `skills`, `rhyme`, `chord-progressions`
+- 更新包描述：强调 Claude Code 专属体验
+- 打包文件增加：`skills/` 目录
+
 ## [0.3.0] - 2025-11-01
 
 ### 🎵 Major Feature: 作曲辅助与音乐平台集成
