@@ -1,0 +1,33 @@
+# Python 依赖文件 - Melody Mimic 专业版
+#
+# 安装方法：
+# 1. 创建虚拟环境（推荐）：
+#    python3 -m venv venv
+#    source venv/bin/activate  # Linux/macOS
+#    # 或 venv\Scripts\activate  # Windows
+#
+# 2. 安装依赖：
+#    pip install -r skills/resources/python-deps.txt
+#
+# 3. 配置 music21（首次安装后）：
+#    python -c "from music21 import configure; configure.run()"
+
+# 核心依赖
+mido>=1.2.10                # MIDI 文件解析和处理
+music21>=8.1.0              # 专业音乐理论分析库
+numpy>=1.21.0               # 数值计算和数组处理
+
+# 可选依赖（增强功能）
+scipy>=1.7.0                # 科学计算（用于高级统计分析）
+matplotlib>=3.5.0           # 可视化（用于生成旋律图表）
+
+# 开发和测试依赖（可选）
+pytest>=6.0.0              # 单元测试框架
+
+# 注意事项：
+# - music21 首次安装后需要运行配置向导
+# - 如果遇到 music21 配置问题，请参考：https://web.mit.edu/music21/doc/installing/index.html
+# - mido 是轻量级 MIDI 库，性能优秀
+# - numpy 用于数值计算，是 music21 的间接依赖
+
+# 最低 Python 版本要求: Python 3.8+

@@ -1,6 +1,6 @@
 {
   "name": "ai-musicify",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "type": "module",
   "description": "AI 驱动的歌词创作和音乐辅助工具 - 支持全流程创作、三种创作模式、作曲辅助、导出到 Suno/Tunee。Claude Code 专属 Skill 增强体验",
   "keywords": [
